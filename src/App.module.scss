@@ -1,0 +1,16 @@
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: #212121;
+}
+.content {
+    padding-top: 63px;
+
+    background-color: $mainBGC;
+}
+.appBlock {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
