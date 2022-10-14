@@ -68,6 +68,7 @@
         "import/extensions": "off",
         "import/prefer-default-export": "off",
         "consistent-return": "off",
+        "react/destructuring-assignment": "off",
         "padding-line-between-statements": [
             "error",
             { "blankLine": "always", "prev": "*", "next": "return"},

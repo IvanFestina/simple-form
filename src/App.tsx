@@ -1,25 +1,34 @@
 import React from 'react';
 
-import { HashRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
-import s from './App.module.scss';
-import { SNACK_BAR_TYPES, SnackBar } from './common/SnackBar/SnackBar';
-import { Header } from './components/header/Header';
-import { RoutesApp } from './components/routes/RoutesApp';
-import { useAppSelector } from './utils/hooks';
+import Greetings from './components/Greetings';
+import RequestForm from './components/RequestForm';
+
+const AppWrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+`;
+
+const AppBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+`;
 
 export const App = () => {
-  const appMessage = useAppSelector(state => state.products.appMessage);
-
   return (
-    <div className={s.appBlock}>
-      <HashRouter>
-        <Header />
-        <div className={s.content}>
-          <RoutesApp />
-        </div>
-      </HashRouter>
-      {appMessage && <SnackBar message={appMessage} type={SNACK_BAR_TYPES.SUCCESS} />}
-    </div>
+    <AppWrapper>
+      <AppBlock>
+        <Greetings />
+        <RequestForm />
+      </AppBlock>
+    </AppWrapper>
   );
 };
