@@ -8,6 +8,9 @@ type InputPropsType = {
 };
 const InputContainer = styled.div`
   position: relative;
+  &:focus-within label {
+    color: #0086a8;
+  }
 `;
 const StyledInput = styled.input`
   width: 100%;
@@ -34,7 +37,7 @@ const StyledLabel = styled.label`
   top: -7px;
   left: 15px;
   padding: 2px;
-  color: #cdcad0;
+  color: #828282;
   z-index: 1;
   font-family: 'SF UI Display', sans-serif;
   font-weight: 400;
@@ -52,6 +55,7 @@ const StyledLabel = styled.label`
     bottom: 0;
     z-index: -1;
   }
+  
 `;
 
 const Input = ({ label, ...props }: InputPropsType) => {

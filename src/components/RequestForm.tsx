@@ -34,14 +34,14 @@ const RequestForm = () => {
       <FormBlock>
         <InputGroup>
           <Input label="Ваше имя *" placeholder="Иван" />
-          <Input placeholder="+7 (000) 000-00-00" />
+          <Input label="Номер телефона *" placeholder="+7 (000) 000-00-00" />
         </InputGroup>
         <InputGroup>
-          <Input placeholder="example@skdesign.ru" />
-          <Input placeholder="+instagram.com/skde…" />
+          <Input label="E-mail *" placeholder="example@skdesign.ru" />
+          <Input label="Ссылка на профиль *" placeholder="+instagram.com/skde…" />
         </InputGroup>
         <Select />
-        <Input placeholder="SK Design" />
+        <Input label="Название организации/студии" placeholder="SK Design" />
         <Button text="Отправить заявку" disabled width="100%" />
       </FormBlock>
     </FormWrapper>
