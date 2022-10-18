@@ -4,32 +4,6 @@ import styled from 'styled-components';
 
 import Logo from './common/Logo';
 
-const GreetingsBlock = styled.div``;
-
-const GreetingsTitle = styled.h1`
-  font-family: 'SF UI Display', serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 150%;
-  color: #353238;
-`;
-
-const GreetingsText = styled.p`
-  max-width: 940px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  color: #353238;
-`;
-const Link = styled.a`
-  color: #0086a8;
-  text-decoration: none;
-`;
-const Margin = styled.div`
-  margin-bottom: 40px;
-`;
-
 const Greetings = () => {
   return (
     <GreetingsBlock>
@@ -57,4 +31,32 @@ const Greetings = () => {
 
 export default Greetings;
 
-/* Vector */
+const GreetingsBlock = styled.div`
+  @media (max-width: 980px) {
+    text-align: center;
+  }
+`;
+
+const GreetingsTitle = styled.h1`
+  font-family: 'SF UI Display', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 150%;
+  color: #353238;
+`;
+
+const GreetingsText = styled.p`
+  max-width: 600px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #353238;
+`;
+const Link = styled.a`
+  color: #0086a8;
+  text-decoration: none;
+`;
+const Margin = styled.div`
+  margin-bottom: 40px;
+`;

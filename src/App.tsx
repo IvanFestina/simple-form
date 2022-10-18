@@ -20,6 +20,11 @@ const AppBlock = styled.div`
   justify-content: center;
   align-items: center;
   gap: 60px;
+  margin: 10px;
+  @media (max-width: 980px) {
+    flex-wrap: wrap;
+    margin-top: 50px;
+  }
 `;
 
 export const App = () => {
