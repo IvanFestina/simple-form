@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Vector = ({ isOpen }: { isOpen: boolean }) => {
+const Vector = ({ isOpen }: { isOpen: boolean}) => {
   return (
     <svg
       style={{

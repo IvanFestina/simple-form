@@ -8,7 +8,7 @@ const Greetings = () => {
   return (
     <GreetingsBlock>
       <Margin>
-        <Logo width="475" height="71" />
+        <Logo />
       </Margin>
       <Margin>
         <GreetingsTitle>Оставьте заявку и станьте частью нашей команды</GreetingsTitle>{' '}

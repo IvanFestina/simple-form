@@ -7,15 +7,15 @@ import Vector from '../../assets/Vector';
 import ErrorMessage from './errorMessage';
 
 type SelectPropsType = {
-  label: string;
+  label?: string;
   error?: any;
   id?: string;
   register?: any;
   name?: string;
   type?: string;
-  options?: any[];
-  hookFormSetValue: any;
-  hookFormGetValue: any;
+  options?: { id: string; name: string }[];
+  hookFormSetValue?: any;
+  hookFormGetValue?: any;
 };
 
 const Select = ({
@@ -28,8 +28,13 @@ const Select = ({
   error,
 }: SelectPropsType) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectWasOpen, setSelectWasOpen] = useState(false);
+  // electWasOpen is needed for toggling legend-label up, one time, on open.
 
-  const toggling = () => setIsOpen(!isOpen);
+  const toggling = () => {
+    setIsOpen(!isOpen);
+    setSelectWasOpen(true);
+  };
 
   const onClickHandler = (value: string) => {
     // use SetValue from react-hook-form
@@ -47,14 +52,16 @@ const Select = ({
 
   return (
     <DropDownContainer isOpen={isOpen}>
-      <Label> {label}</Label>
-      <DropDownHeader onClick={toggling}>
-        <div />
+      <Label>{label}</Label>
+      <DropDownHeader {...register} onClick={toggling}>
+        <div>
+          <span {...register}>{hookFormGetValue(name)}</span>
+        </div>
         <FakeInput />
         <Vector isOpen={isOpen} />
         <Fieldset isOpen={isOpen}>
-          <Legend>
-            <span />
+          <Legend selectWasOpen={selectWasOpen}>
+            <span {...register}>{label}</span>
           </Legend>
         </Fieldset>
       </DropDownHeader>
@@ -97,8 +104,9 @@ const FakeInput = styled('input')`
   opacity: 0;
   pointer-events: none;
   width: 100%;
+  box-sizing: border-box;
 `;
-const Fieldset = styled('fieldset')<{isOpen: boolean}>`
+const Fieldset = styled('fieldset')<{ isOpen: boolean }>`
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -113,14 +121,15 @@ const Fieldset = styled('fieldset')<{isOpen: boolean}>`
   min-width: 0%;
   border: ${props => (props.isOpen ? 'none' : '#0086a8 solid 2px')};
 `;
-const Legend = styled('legend')`
-  max-width: 0.01px;
+const Legend = styled('legend')<{ selectWasOpen: boolean }>`
+  max-width: ${props => (props.selectWasOpen ? '100%' : '0.01px')}
   height: 11px;
   font-size: 0.75em;
   visibility: hidden;
   transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   white-space: nowrap;
-  p {
+
+  span {
     color: #353238;
     font-weight: 500;
     font-size: 1.3rem;
@@ -170,3 +179,31 @@ const ListItem = styled('li')`
     color: #2b6a8d;
   }
 `;
+
+// <div className='MuiBox-root css-ece9u5'>
+//   <div className='MuiFormControl-root MuiFormControl-fullWidth css-tzsjye'>
+//     <label
+//       className='MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-p0rm37'
+//       data-shrink='false' id='demo-simple-select-label'>Age</label>
+//     <div
+//       className='MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-fvipm8'>
+//       <div tabIndex='0' role='button' aria-expanded='false' aria-haspopup='listbox'
+//            aria-labelledby='demo-simple-select-label demo-simple-select'
+//            id='demo-simple-select'
+//            className='MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-qiwgdb'>
+//         <span className='notranslate'>​</span></div>
+//       <input aria-hidden='true' tabIndex='-1'
+//              className='MuiSelect-nativeInput css-1k3x8v3' value=''>
+//         <svg
+//           className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-1636szt'
+//           focusable='false' aria-hidden='true' viewBox='0 0 24 24'
+//           data-testid='ArrowDropDownIcon'>
+//           <path d='M7 10l5 5 5-5z'></path>
+//         </svg>
+//         <fieldset aria-hidden='true'
+//                   className='MuiOutlinedInput-notchedOutline css-igs3ac'>
+//           <legend className='css-yjsfm1'><span>Age</span></legend>
+//         </fieldset></div>
+//   </div>
+// </div>;
+//

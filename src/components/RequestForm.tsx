@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import * as yup from 'yup';
 
@@ -12,7 +12,6 @@ import AdditionalField from './AdditionalField';
 import Button from './common/Button';
 import Input from './common/Input';
 import Select from './common/Select';
-import Empty from './common/empty';
 
 export type FormValues = {
   name: string;
@@ -53,9 +52,10 @@ const RequestForm = () => {
     getValues,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    control,
+    formState: { errors, isValid, isDirty },
   } = useForm<FormValues>({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: yupResolver(validationSchema),
   });
 
@@ -65,6 +65,8 @@ const RequestForm = () => {
   });
   // we make array of string ('sources') an array with object(mappedSources), the reason is, for use in custom Select.
   const mappedSources = sources.map((s, i) => ({ name: s, id: i.toString() }));
+
+  console.log(isValid, isDirty);
 
   return (
     <FormWrapper>
@@ -136,7 +138,7 @@ const RequestForm = () => {
             registerSelect={register('howKnown')}
           />
           <Button
-            disabled={!isValid}
+            disabled={!isValid || !isDirty}
             text="Отправить заявку"
             width="100%"
             loading={isAppLoading}
