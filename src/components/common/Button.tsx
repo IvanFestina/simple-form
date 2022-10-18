@@ -6,7 +6,18 @@ type ButtonPropsType = {
   text: string;
   disabled: boolean;
   width: string;
+  loading: boolean;
 };
+
+const Button = ({ ...props }: ButtonPropsType) => {
+  return (
+    <StyledButton type="submit" {...props}>
+      <StyledText>{props.text}</StyledText>
+    </StyledButton>
+  );
+};
+
+export default Button;
 
 const StyledButton = styled('button')<{ width: string }>`
   display: flex;
@@ -41,17 +52,6 @@ const StyledText = styled.p`
   font-weight: 600;
   font-size: 14px;
   line-height: 100%;
-  //identical to box height, or 14px
   text-align: center;
   color: white;
 `;
-
-const Button = (props: ButtonPropsType) => {
-  return (
-    <StyledButton {...props}>
-      <StyledText>{props.text}</StyledText>
-    </StyledButton>
-  );
-};
-
-export default Button;
