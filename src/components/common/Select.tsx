@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 
+import {
+  UseFormGetValues,
+  UseFormRegisterReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 import styled from 'styled-components';
 
 import Vector from '../../assets/Vector';
+import { FormValues } from '../RequestForm';
 
 import ErrorMessage from './errorMessage';
 
@@ -10,12 +16,12 @@ type SelectPropsType = {
   label?: string;
   error?: any;
   id?: string;
-  register?: any;
-  name?: string;
+  register?: UseFormRegisterReturn<keyof FormValues>;
+  name: keyof FormValues;
   type?: string;
   options?: { id: string; name: string }[];
-  hookFormSetValue?: any;
-  hookFormGetValue?: any;
+  hookFormSetValue: UseFormSetValue<FormValues>;
+  hookFormGetValue: UseFormGetValues<FormValues>;
 };
 
 const Select = ({
@@ -38,16 +44,27 @@ const Select = ({
 
   const onClickHandler = (value: string) => {
     // use SetValue from react-hook-form
-    hookFormSetValue(name, value);
+    if (hookFormSetValue && name) {
+      hookFormSetValue(name, value, { shouldValidate: true });
+    }
+
     setIsOpen(false);
   };
 
   const mappedOptions =
     options &&
     options.map(option => (
-      <ListItem onClick={() => onClickHandler(option.name)} key={option.id}>
+      <ListItem key={option.id} onClick={() => onClickHandler(option.name)}>
         {option.name}
       </ListItem>
+    ));
+
+  const mapOption =
+    options &&
+    options.map(opt => (
+      <option key={opt.id} value={opt.name}>
+        {opt.name}
+      </option>
     ));
 
   return (
@@ -55,16 +72,23 @@ const Select = ({
       <Label>{label}</Label>
       <DropDownHeader {...register} onClick={toggling}>
         <div>
-          <span {...register}>{hookFormGetValue(name)}</span>
+          <span>{hookFormGetValue(name)}</span>
         </div>
         <FakeInput />
         <Vector isOpen={isOpen} />
         <Fieldset isOpen={isOpen}>
           <Legend selectWasOpen={selectWasOpen}>
-            <span {...register}>{label}</span>
+            <span>{label}</span>
           </Legend>
         </Fieldset>
       </DropDownHeader>
+      <select
+        style={{ display: 'none' }}
+        {...register}
+        onChange={e => onClickHandler(e.currentTarget.value)}
+      >
+        {mapOption}
+      </select>
       {isOpen && <DropDownList>{mappedOptions}</DropDownList>}
       {error && <ErrorMessage error={error} />}
     </DropDownContainer>
@@ -119,7 +143,7 @@ const Fieldset = styled('fieldset')<{ isOpen: boolean }>`
   border-radius: 8px;
   overflow: hidden;
   min-width: 0%;
-  border: ${props => (props.isOpen ? 'none' : '#0086a8 solid 2px')};
+  border: ${props => (props.isOpen ? 'none' : '#e3e3e3 solid 2px')};
 `;
 const Legend = styled('legend')<{ selectWasOpen: boolean }>`
   max-width: ${props => (props.selectWasOpen ? '100%' : '0.01px')}
@@ -135,15 +159,6 @@ const Legend = styled('legend')<{ selectWasOpen: boolean }>`
     font-size: 1.3rem;
   }
 `;
-//
-// const DropDownListContainer = styled('div')<{ isOpen: boolean }>`
-//   border: ${props => (props.isOpen ? '#0086a8' : '#e3e3e3')} solid 2px;
-//   border-radius: 8px;
-//   position: absolute;
-//   z-index: 100;
-//   width: 25%;
-//   box-shadow: 0px 5px 20px rgba(53, 50, 56, 0.14);
-// `;
 
 const DropDownList = styled('ul')`
   //padding: 15px;
@@ -179,31 +194,3 @@ const ListItem = styled('li')`
     color: #2b6a8d;
   }
 `;
-
-// <div className='MuiBox-root css-ece9u5'>
-//   <div className='MuiFormControl-root MuiFormControl-fullWidth css-tzsjye'>
-//     <label
-//       className='MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-p0rm37'
-//       data-shrink='false' id='demo-simple-select-label'>Age</label>
-//     <div
-//       className='MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-fvipm8'>
-//       <div tabIndex='0' role='button' aria-expanded='false' aria-haspopup='listbox'
-//            aria-labelledby='demo-simple-select-label demo-simple-select'
-//            id='demo-simple-select'
-//            className='MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-qiwgdb'>
-//         <span className='notranslate'>​</span></div>
-//       <input aria-hidden='true' tabIndex='-1'
-//              className='MuiSelect-nativeInput css-1k3x8v3' value=''>
-//         <svg
-//           className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-1636szt'
-//           focusable='false' aria-hidden='true' viewBox='0 0 24 24'
-//           data-testid='ArrowDropDownIcon'>
-//           <path d='M7 10l5 5 5-5z'></path>
-//         </svg>
-//         <fieldset aria-hidden='true'
-//                   className='MuiOutlinedInput-notchedOutline css-igs3ac'>
-//           <legend className='css-yjsfm1'><span>Age</span></legend>
-//         </fieldset></div>
-//   </div>
-// </div>;
-//

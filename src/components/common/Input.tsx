@@ -1,6 +1,9 @@
 import React from 'react';
 
+import { UseFormRegisterReturn } from 'react-hook-form';
 import styled from 'styled-components';
+
+import { FormValues } from '../RequestForm';
 
 import ErrorMessage from './errorMessage';
 
@@ -9,7 +12,7 @@ type InputPropsType = {
   label?: string;
   error?: any;
   id?: string;
-  register?: any;
+  register?: UseFormRegisterReturn<keyof FormValues>;
   name?: string;
   type?: string;
 };
@@ -26,13 +29,15 @@ const Input = ({
 }: InputPropsType) => {
   return (
     <InputContainer>
-      <StyledLabel htmlFor="inputText">{label}</StyledLabel>
+      <StyledLabel error={error} htmlFor="inputText">
+        {label}
+      </StyledLabel>
       <StyledInput
         placeholder={placeholder}
         type={type}
         name={name}
         id={id}
-        error
+        error={error}
         {...register}
       />
       {error && <ErrorMessage error={error} />}
@@ -59,7 +64,7 @@ const InputContainer = styled.div`
 const StyledInput = styled('input')<{ error: string }>`
   width: 100%;
   height: 50px;
-  border: ${props => (props.error ? '#e3e3e3' : '#eb5e55')} 2px solid;
+  border: ${props => (props.error ? '#eb5e55' : '#e3e3e3')} 2px solid;
   border-radius: 8px;
   padding: 18px 15px;
   color: #353238;
@@ -76,12 +81,12 @@ const StyledInput = styled('input')<{ error: string }>`
     outline-color: #0086a8;
   }
 `;
-const StyledLabel = styled.label`
+const StyledLabel = styled('label')<{ error: string }>`
   position: absolute;
   top: -7px;
   left: 15px;
   padding: 2px;
-  color: #828282;
+  color: ${props => (props.error ? '#eb5e55' : '#828282')};
   z-index: 1;
   font-family: 'SF UI Display', sans-serif;
   font-weight: 400;

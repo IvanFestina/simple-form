@@ -2,29 +2,30 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import Loader from '../../assets/Loader';
+
 type ButtonPropsType = {
   text: string;
   disabled: boolean;
   width: string;
   loading: boolean;
 };
-
-const Button = ({ ...props }: ButtonPropsType) => {
+const Button = ({ loading, ...props }: ButtonPropsType) => {
   return (
-    <StyledButton type="submit" {...props}>
-      <StyledText>{props.text}</StyledText>
+    <StyledButton loading={loading} type="submit" {...props}>
+      {loading ? <Loader /> : <StyledText>{props.text}</StyledText>}
     </StyledButton>
   );
 };
 
 export default Button;
 
-const StyledButton = styled('button')<{ width: string }>`
+const StyledButton = styled('button')<{ loading: boolean; width: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: ${props => props.width || '160px'};
-  padding: 18px 25px;
+  padding: ${props => (props.loading ? '10px 25px' : '18px 25px')};
   background: #0086a8;
   border-radius: 8px;
   border: none;
@@ -39,7 +40,7 @@ const StyledButton = styled('button')<{ width: string }>`
   }
 
   &:disabled {
-    background: #e3e3e3;
+    background: ${props => (props.loading ? '#0086a8' : '#e3e3e3')};
     cursor: default;
 
     p {

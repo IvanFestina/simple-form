@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import * as yup from 'yup';
 
@@ -52,7 +52,6 @@ const RequestForm = () => {
     getValues,
     handleSubmit,
     reset,
-    control,
     formState: { errors, isValid, isDirty },
   } = useForm<FormValues>({
     mode: 'all',
@@ -65,8 +64,6 @@ const RequestForm = () => {
   });
   // we make array of string ('sources') an array with object(mappedSources), the reason is, for use in custom Select.
   const mappedSources = sources.map((s, i) => ({ name: s, id: i.toString() }));
-
-  console.log(isValid, isDirty);
 
   return (
     <FormWrapper>

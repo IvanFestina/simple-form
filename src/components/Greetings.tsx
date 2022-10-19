@@ -7,9 +7,8 @@ import Logo from './common/Logo';
 const Greetings = () => {
   return (
     <GreetingsBlock>
-      <Margin>
-        <Logo />
-      </Margin>
+      <Logo />
+      <Margin />
       <Margin>
         <GreetingsTitle>Оставьте заявку и станьте частью нашей команды</GreetingsTitle>{' '}
       </Margin>

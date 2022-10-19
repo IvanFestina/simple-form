@@ -6,7 +6,6 @@ export const applyForm = createAsyncThunk(
     const secondsToWait = 2000;
 
     try {
-      debugger;
       const res = await new Promise(resolve => {
         setTimeout(() => resolve(params), secondsToWait);
       });
@@ -14,7 +13,6 @@ export const applyForm = createAsyncThunk(
       // eslint-disable-next-line no-console
       console.log(JSON.stringify(res));
     } catch (e) {
-      debugger;
       // eslint-disable-next-line no-console
       console.log('Error', e);
 
