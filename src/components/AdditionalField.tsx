@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Control } from 'react-hook-form';
+import { Control, UseFormGetValues } from 'react-hook-form';
 import styled from 'styled-components';
 
 import Vector from '../assets/Vector';
@@ -36,12 +36,14 @@ type AdditionalFieldPropsType = {
   registerInput: any;
   options: { name: string; id: string }[];
   control: Control<FormValues, any>;
+  getValues: UseFormGetValues<FormValues>;
 };
 
 const AdditionalField = ({
   registerInput,
   options,
   control,
+  getValues,
 }: AdditionalFieldPropsType) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggling = () => setIsOpen(!isOpen);
@@ -62,6 +64,7 @@ const AdditionalField = ({
             name="receiver"
           />
           <SelectMain
+            getValues={getValues}
             control={control}
             options={options}
             name="howKnown"

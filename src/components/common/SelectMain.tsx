@@ -1,15 +1,11 @@
 import React from 'react';
 
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
-import { Control, Controller } from 'react-hook-form';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Control, Controller, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 import { FormValues } from '../RequestForm';
+
+import ErrorMessage from './errorMessage';
 
 type SelectPropsType = {
   label?: string;
@@ -18,43 +14,57 @@ type SelectPropsType = {
   name: keyof FormValues;
   options: { id: string; name: string }[];
   control: Control<FormValues, any>;
+  getValues: UseFormGetValues<FormValues>;
 };
 
-const SelectMain = ({ label, options, control, name, error }: SelectPropsType) => {
-  const [option, setOption] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value as string);
-  };
-  const mappedOptions =
-    options && options.map(option => <MenuItem key={option.id}>{option.name}</MenuItem>);
+const SelectMain = ({
+  getValues,
+  label,
+  options,
+  control,
+  name,
+  error,
+}: SelectPropsType) => {
+  const mapOption =
+    options &&
+    options.map(opt => (
+      <MenuItem key={opt.id} value={opt.name}>
+        {opt.name}
+      </MenuItem>
+    ));
 
   return (
-    <Controller
-      control={control}
-      name="city"
-      render={({ ...field }) => (
-        <FormControl fullWidth>
-          <InputLabel id="label">{label}</InputLabel>
-          <Select
-            onChange={handleChange}
-            error={error}
-            labelId="label"
-            sx={{
-              textAlign: 'center',
-              height: '50px',
-              borderRadius: '8px',
-              borderColor: '#0086a8',
-              borderWidth: '2px',
-            }}
-            {...field}
-            label={label}
-          >
-            {mappedOptions}
-          </Select>
-        </FormControl>
-      )}
-    />
+    <>
+      <FormControl fullWidth>
+        <InputLabel id="label">{label}</InputLabel>
+        <Controller
+          control={control}
+          name={name}
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { invalid, isTouched, isDirty, error },
+          }) => (
+            <Select
+              onChange={onChange}
+              error={!!error}
+              label={label}
+              value={value}
+              labelId="label"
+              sx={{
+                textAlign: 'center',
+                height: '50px',
+                borderRadius: '8px',
+                borderColor: '#0086a8',
+                borderWidth: '2px',
+              }}
+            >
+              {mapOption}
+            </Select>
+          )}
+        />
+      </FormControl>
+      {error && <ErrorMessage error={error} />}
+    </>
   );
 };
 

@@ -22,6 +22,7 @@ export type FormValues = {
   organisation: string;
   receiver: string;
   howKnown: string;
+  nothing: string;
 };
 
 const RequestForm = () => {
@@ -38,20 +39,28 @@ const RequestForm = () => {
       .min(minLettersInName, 'Напишите более 2 символов')
       .required('Обязательное поле'),
     email: yup.string().email('Введите валидный email').required('Обязательное поле'),
-    phoneNumber: yup.string().required('Обязательное поле'),
+    phoneNumber: yup
+      .string()
+      .matches(
+        /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/gm,
+        'Введите номер телефона',
+      )
+      .required('Обязательное поле'),
     profileLink: yup.string().required('Обязательное поле'),
     city: yup.string().required('Пожалуйста, выберите город'),
     organisation: yup.string(),
     receiver: yup.string(),
     howKnown: yup.string(),
   });
+
   // this is a start of applying react-hook-form library
   const {
     register,
     handleSubmit,
     reset,
     control,
-    formState: { errors, isValid, isDirty },
+    getValues,
+    formState: { errors, isValid },
   } = useForm<FormValues>({
     mode: 'all',
     resolver: yupResolver(validationSchema),
@@ -114,6 +123,7 @@ const RequestForm = () => {
             options={cities}
             label="Выберите город *"
             error={errors.city?.message}
+            getValues={getValues}
           />
           <Input
             label="Название организации/студии"
@@ -127,9 +137,10 @@ const RequestForm = () => {
             registerInput={register('receiver')}
             options={mappedSources}
             control={control}
+            getValues={getValues}
           />
           <Button
-            disabled={!isValid || !isDirty}
+            disabled={!isValid}
             text="Отправить заявку"
             width="100%"
             loading={isAppLoading}
