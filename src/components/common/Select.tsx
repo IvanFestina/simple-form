@@ -95,7 +95,7 @@ const Select = ({
   );
 };
 
-export default Select;
+export default {};
 
 const DropDownContainer = styled('div')<{ isOpen: boolean }>`
   border: ${props => (props.isOpen ? '#0086a8' : 'none')} solid 2px;

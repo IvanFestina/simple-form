@@ -4,7 +4,12 @@
   "private": true,
   "homepage": "https://IvanFestina.github.io/simple-form-SK-design",
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@hookform/resolvers": "^2.9.9",
+    "@mui/material": "^5.10.10",
+    "@mui/styled-engine-sc": "^5.10.6",
+    "@mui/system": "^5.10.10",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

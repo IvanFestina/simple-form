@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
+import { Control } from 'react-hook-form';
 import styled from 'styled-components';
 
 import Vector from '../assets/Vector';
 
 import Input from './common/Input';
-import Select from './common/Select';
+import SelectMain from './common/SelectMain';
+import { FormValues } from './RequestForm';
 
 const FieldContainer = styled('div')<{ isOpen: boolean }>`
   transition: ease-in-out;
@@ -33,17 +35,13 @@ const Content = styled('div')`
 type AdditionalFieldPropsType = {
   registerInput: any;
   options: { name: string; id: string }[];
-  registerSelect: any;
-  hookFormSetValue: any;
-  hookFormGetValue: any;
+  control: Control<FormValues, any>;
 };
 
 const AdditionalField = ({
   registerInput,
   options,
-  registerSelect,
-  hookFormSetValue,
-  hookFormGetValue,
+  control,
 }: AdditionalFieldPropsType) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggling = () => setIsOpen(!isOpen);
@@ -63,14 +61,11 @@ const AdditionalField = ({
             id="receiver"
             name="receiver"
           />
-          <Select
-            hookFormGetValue={hookFormGetValue}
-            hookFormSetValue={hookFormSetValue}
-            {...registerSelect}
-            label="Откуда узнали про нас?"
-            id="howKnown"
-            name="howKnown"
+          <SelectMain
+            control={control}
             options={options}
+            name="howKnown"
+            label="Откуда узнали про нас?"
           />
         </Content>
       )}

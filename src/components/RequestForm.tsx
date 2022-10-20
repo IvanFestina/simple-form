@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../utils/hooks';
 import AdditionalField from './AdditionalField';
 import Button from './common/Button';
 import Input from './common/Input';
-import Select from './common/Select';
+import SelectMain from './common/SelectMain';
 
 export type FormValues = {
   name: string;
@@ -48,10 +48,9 @@ const RequestForm = () => {
   // this is a start of applying react-hook-form library
   const {
     register,
-    setValue,
-    getValues,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isValid, isDirty },
   } = useForm<FormValues>({
     mode: 'all',
@@ -109,15 +108,12 @@ const RequestForm = () => {
               error={errors.profileLink?.message}
             />
           </InputGroup>
-          <Select
-            hookFormGetValue={getValues}
-            hookFormSetValue={setValue}
-            label="Выберите город *"
-            register={register('city')}
-            id="city"
+          <SelectMain
+            control={control}
             name="city"
-            error={errors.city?.message}
             options={cities}
+            label="Выберите город *"
+            error={errors.city?.message}
           />
           <Input
             label="Название организации/студии"
@@ -128,11 +124,9 @@ const RequestForm = () => {
             type="text"
           />
           <AdditionalField
-            hookFormGetValue={getValues}
-            hookFormSetValue={setValue}
             registerInput={register('receiver')}
             options={mappedSources}
-            registerSelect={register('howKnown')}
+            control={control}
           />
           <Button
             disabled={!isValid || !isDirty}
